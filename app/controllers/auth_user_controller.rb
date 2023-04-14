@@ -7,7 +7,7 @@ class AuthUserController < ApplicationController
   end
 
   def create
-    @user = User.find_by(user_params[:username])
+    @user = User.find_by(username: user_params[:username])
     if @user&.authenticate(user_params[:password])
       @token = encode_token(user_id: @user.id)
       cookies["token"] = @token

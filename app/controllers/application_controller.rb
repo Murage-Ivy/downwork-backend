@@ -3,7 +3,6 @@ class ApplicationController < ActionController::API
   before_action :authorized
 
   def encode_token(payload)
-    # payload[:exp] = expiration
     @token = JWT.encode(payload, "my_s3cret_k3y")
   end
 
@@ -12,8 +11,8 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token
-    if auth_header
-      token = auth_header.split(" ")[1]
+    if auth_cookies
+      token = auth_cookies
       begin
         JWT.decode(token, ENV["my_s3cr3t"], true, algorithm: "HS256")
       rescue JWT::DecodeError
