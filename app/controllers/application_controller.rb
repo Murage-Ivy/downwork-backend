@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
     if auth_cookies
       token = auth_cookies
       begin
-        JWT.decode(token, ENV["my_s3cr3t"], true, algorithm: "HS256")
+        JWT.decode(token, "my_s3cret_k3y", true, algorithm: "HS256")
       rescue JWT::DecodeError
         nil
       end
