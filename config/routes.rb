@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :users
 
   post "/signup", to: "users#create"
-  # post "/login", to: "users#login"
+  post "/login", to: "auth_user#create"
 end
