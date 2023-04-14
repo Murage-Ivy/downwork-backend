@@ -7,8 +7,8 @@ class ApplicationController < ActionController::API
     @token = JWT.encode(payload, "my_s3cret_k3y")
   end
 
-  def auth_header
-    request.headers["Authorization"]
+  def auth_cookies
+    cookies["token"]
   end
 
   def decode_token
@@ -35,5 +35,9 @@ class ApplicationController < ActionController::API
 
   def authorized
     render json: { message: "Please log in" }, status: :unauthorized unless logged_in?
+  end
+
+  def render_unprocessable_entity_response
+    render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
   end
 end
