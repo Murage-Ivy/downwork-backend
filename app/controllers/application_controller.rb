@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::API
-  def encode_token(poyload)
+  before_action :authorized
+
+  def encode_token(payload, expiration)
+    payload[:exp] = expiration
     @token = JWT.encode(payload, ENV["my_s3cr3t"])
   end
 
@@ -8,11 +11,28 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token
+    if auth_header
+      token = auth_header.split(" ")[1]
+      begin
+        JWT.decode(token, ENV["my_s3cr3t"], true, algorithm: "HS256")
+      rescue JWT::DecodeError
+        nil
+      end
+    end
   end
 
   def current_user
+    if decode_token
+      user_id = decode_token[0]["user_id"]
+      @user = User.find_by(id: user_id)
+    end
   end
 
   def logged_in?
+    !!current_user
+  end
+
+  def authorized
+    render json: { message: "Please log in" }, status: :unauthorized unless logged_in?
   end
 end
