@@ -2,9 +2,9 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   before_action :authorized
 
-  def encode_token(payload, expiration)
-    payload[:exp] = expiration
-    @token = JWT.encode(payload, ENV["my_s3cr3t"])
+  def encode_token(payload)
+    # payload[:exp] = expiration
+    @token = JWT.encode(payload, "my_s3cret_k3y")
   end
 
   def auth_header

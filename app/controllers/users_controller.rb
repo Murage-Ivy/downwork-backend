@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:create]
-  rescue_from ActiveRecord::InvalidRecord, with: :render_unprocessable_entity_response
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
   def profile
     render json: { user: UserSerializer.new(current_user) }, status: :accepted
@@ -10,7 +10,8 @@ class UsersController < ApplicationController
     @user = User.create!(user_params)
     @token = encode_token(user_id: @user_id)
     cookies["token"] = @token
-    render json: { user: UserSerializer.new(@user) }, status: :created
+    byebug
+    render json: @user, serializer: UserSerializer, status: :created
   end
 
   private
