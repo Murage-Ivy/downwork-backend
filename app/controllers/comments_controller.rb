@@ -3,7 +3,11 @@ class CommentsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
 
   def index
-    comments = Comment.all
+    if (comment_params[:post_id])
+      comments = Comment.where(post_id: comment_params[:post_id])
+    else
+      comments = Comment.all
+    end
     render json: comments
   end
 
