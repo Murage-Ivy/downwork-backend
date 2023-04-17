@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  #   skip_before_action :authorized, only: [:index, :show]
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
 
