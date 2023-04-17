@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
+  wrap_parameters format: []
 
   def index
     if (comment_params[:post_id])
