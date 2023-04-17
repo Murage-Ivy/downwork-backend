@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-#   skip_before_action :authorized, only: [:index, :show]
+  #   skip_before_action :authorized, only: [:index, :show]
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
 
@@ -33,7 +33,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:title, :content, :user_id, :image_url, :category)
+    params.permit(:title, :description, :user_id, :image_url, :category, :likes)
   end
 
   def find_post
