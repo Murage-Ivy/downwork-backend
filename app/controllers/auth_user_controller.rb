@@ -1,6 +1,7 @@
 class AuthUserController < ApplicationController
   skip_before_action :authorized, only: [:create]
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  wrap_parameters format: []
 
   def profile
     render json: { user: UserSerializer.new(current_user) }, status: :accepted
