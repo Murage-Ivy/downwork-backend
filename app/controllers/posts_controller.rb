@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
 
   def create
-    post = Post.create!(post_params)
+    post = current_user.posts.create!(post_params)
     render json: post, status: :created
   end
 
@@ -32,7 +32,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.permit(:title, :description, :user_id, :image_url, :category, :likes)
+    params.permit(:title, :description, :image_url, :category, :likes)
   end
 
   def find_post

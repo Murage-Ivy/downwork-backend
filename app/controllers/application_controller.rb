@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::API
-  include ActionController::Cookies
   before_action :authorized
+  include ActionController::Cookies
 
   def encode_token(payload)
     @token = JWT.encode(payload, "my_s3cret_k3y")
