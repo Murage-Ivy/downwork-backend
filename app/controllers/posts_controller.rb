@@ -9,7 +9,6 @@ class PostsController < ApplicationController
 
   def index
     posts = Post.find_by(category: find_params[:category])
-    byebug
     render json: posts, status: :ok
   end
 
