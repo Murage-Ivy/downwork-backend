@@ -9,7 +9,11 @@ class PostsController < ApplicationController
 
   def index
     posts = Post.find_by(category: find_params[:category])
-    render json: posts, status: :ok
+    if (posts)
+      render json: posts, status: :ok
+    else
+      render json: { error: "No posts found" }, status: :not_found
+    end
   end
 
   def show
