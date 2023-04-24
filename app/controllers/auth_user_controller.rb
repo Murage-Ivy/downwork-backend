@@ -12,7 +12,6 @@ class AuthUserController < ApplicationController
     if @user&.authenticate(user_params[:password])
       @token = encode_token(user_id: @user.id)
       cookies["token"] = @token
-      byebug
       render json: @user, serializer: UserSerializer, status: :created
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized

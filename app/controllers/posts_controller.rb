@@ -8,7 +8,8 @@ class PostsController < ApplicationController
   end
 
   def index
-    posts = Post.all
+    posts = Post.find_by(category: find_params[:category])
+    byebug
     render json: posts, status: :ok
   end
 
@@ -33,6 +34,10 @@ class PostsController < ApplicationController
 
   def post_params
     params.permit(:title, :description, :image_url, :category, :likes)
+  end
+
+  def find_params
+    params.permit(:category)
   end
 
   def find_post
