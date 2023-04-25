@@ -13,11 +13,6 @@ class PostsController < ApplicationController
     else
       posts = Post.all
     end
-    # posts = Post.where(category: )
-    # if (posts)
-    # else
-    #   render json: { error: "No posts found" }, status: :not_found
-    # end
     render json: posts, status: :ok
   end
 
