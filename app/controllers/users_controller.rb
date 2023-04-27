@@ -14,6 +14,11 @@ class UsersController < ApplicationController
     render json: @user, serializer: UserSerializer, status: :created
   end
 
+  def destroy
+    cookies.delete :token
+    render json: { message: "Logged out" }, status: :accepted
+  end
+
   private
 
   def user_params
