@@ -1,8 +1,10 @@
 class PostsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   rescue_from ActiveRecord::RecordNotFound, with: :render_response_not_found
+  wrap_parameters format: []
 
   def create
+    byebug
     post = current_user.posts.create!(post_params)
     render json: post, status: :created
   end
@@ -24,6 +26,19 @@ class PostsController < ApplicationController
   def update
     post = find_post
     post.update!(post_params)
+    render json: post, status: :ok
+  end
+
+  def increment_likes
+    post = find_post
+    if Like.find_by(user_id: current_user.id, post_id: post.id)
+      Like.find_by(user_id: current_user.id, post_id: post.id).destroy
+      post.update!(likes: post.likes - 1)
+    else
+      Like.create(user_id: current_user.id, post_id: post.id)
+      post.update!(likes: post.likes + 1)
+    end
+
     render json: post, status: :ok
   end
 

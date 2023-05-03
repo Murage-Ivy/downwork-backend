@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   wrap_parameters format: []
 
   def profile
-    render json: { user: UserSerializer.new(current_user) }, status: :accepted
+    render json: current_user, serializer: UserSerializer, status: :accepted
   end
 
   def create
