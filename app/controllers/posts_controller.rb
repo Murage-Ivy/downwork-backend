@@ -65,4 +65,8 @@ class PostsController < ApplicationController
   def render_response_not_found
     render json: { error: "Post not found" }, status: :not_found
   end
+
+  def render_unprocessable_entity_response(invalid)
+    render json: { errors: invalid.record.errors.full_messages }, status: :unprocessable_entity
+  end
 end
